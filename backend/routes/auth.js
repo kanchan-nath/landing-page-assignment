@@ -57,7 +57,7 @@ const generateToken = (id) =>
 // });
 
 router.get("/register", (req, res) => {
-  res.json({ message: 'Landing Page API is running' });
+  res.json({ message: 'Landing Page API XXX is running' });
 })
 router.post('/verify-otp', async (req, res) => {
   try {
