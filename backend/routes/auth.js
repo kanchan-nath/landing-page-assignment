@@ -11,54 +11,51 @@ const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString()
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-// router.post('/register', async (req, res) => {
-//   try {
-//     const { name, email, password } = req.body;
+router.post('/register', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-//     if (!name || !email || !password) {
-//       return res.status(400).json({ message: 'All fields are required' });
-//     }
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
 
-//     if (password.length < 6) {
-//       return res.status(400).json({ message: 'Password must be at least 6 characters' });
-//     }
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    }
 
-//     const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
-//     if (existingUser && existingUser.isVerified) {
-//       return res.status(409).json({ message: 'Email already registered' });
-//     }
+    if (existingUser && existingUser.isVerified) {
+      return res.status(409).json({ message: 'Email already registered' });
+    }
 
-//     const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
-//     const otp = generateOTP();
-//     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    const otp = generateOTP();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-//     if (existingUser && !existingUser.isVerified) {
-//       existingUser.name = name;
-//       existingUser.password = hashedPassword;
-//       existingUser.otp = otp;
-//       existingUser.otpExpiry = otpExpiry;
-//       await existingUser.save();
-//     } else {
-//       await User.create({ name, email, password: hashedPassword, otp, otpExpiry });
-//     }
+    if (existingUser && !existingUser.isVerified) {
+      existingUser.name = name;
+      existingUser.password = hashedPassword;
+      existingUser.otp = otp;
+      existingUser.otpExpiry = otpExpiry;
+      await existingUser.save();
+    } else {
+      await User.create({ name, email, password: hashedPassword, otp, otpExpiry });
+    }
 
-//     await sendOTPEmail(email, name, otp);
+    await sendOTPEmail(email, name, otp);
 
-//     res.status(201).json({
-//       message: 'OTP sent to your email. Please verify to complete registration.',
-//       email,
-//     });
-//   } catch (error) {
-//     console.error('Register error:', error);
-//     res.status(500).json({ message: 'Server error. Please try again.' });
-//   }
-// });
+    res.status(201).json({
+      message: 'OTP sent to your email. Please verify to complete registration.',
+      email,
+    });
+  } catch (error) {
+    console.error('Register error:', error);
+    res.status(500).json({ message: 'Server error. Please try again.' });
+  }
+});
 
-router.get("/register", (req, res) => {
-  res.json({ message: 'Landing Page API XXX is running' });
-})
 router.post('/verify-otp', async (req, res) => {
   try {
     const { email, otp } = req.body;
