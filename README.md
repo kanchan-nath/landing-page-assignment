@@ -88,8 +88,8 @@ project/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/slate-emerald.git
-cd Landing Page 
+git https://github.com/kanchan-nath/landing-page-assignment
+cd Landing_Page 
 ```
 
 ### 2. Set up the backend
@@ -129,7 +129,7 @@ npm install
 cp .env.example .env
 ```
 
-The default `.env` points to `http://localhost:5000/api` via the Vite proxy, so no changes needed for local development.
+The default `.env` points to `http://localhost:4000/api` via the Vite proxy, so no changes needed for local development.
 
 Start the frontend:
 
