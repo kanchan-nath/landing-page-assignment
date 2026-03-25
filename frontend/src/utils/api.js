@@ -1,0 +1,42 @@
+import axios from 'axios';
+
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
+
+const api = axios.create({
+  baseURL: API_BASE,
+});
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('se_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      localStorage.removeItem('se_token');
+      localStorage.removeItem('se_user');
+      window.location.href = '/login';
+    }
+    return Promise.reject(err);
+  }
+);
+
+export const authAPI = {
+  register: (data) => api.post('/auth/register', data),
+  verifyOTP: (data) => api.post('/auth/verify-otp', data),
+  login: (data) => api.post('/auth/login', data),
+};
+
+export const leadsAPI = {
+  getAll: () => api.get('/leads'),
+  create: (data) => api.post('/leads', data),
+  update: (id, data) => api.put(`/leads/${id}`, data),
+  delete: (id) => api.delete(`/leads/${id}`),
+};
+
+export default api;
