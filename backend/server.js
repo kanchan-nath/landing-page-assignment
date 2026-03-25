@@ -11,10 +11,11 @@ const PORT = process.env.PORT || 4000;
 
 connectDB();
 
-app.use(cors({
-  origin: process.env.CLIENT_URL || "https://landing-page-assignment-kanchan.vercel.app",
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: process.env.CLIENT_URL || "http://localhost:5173",
+//   credentials: true,
+// }));
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
