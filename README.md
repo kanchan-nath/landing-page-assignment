@@ -1,5 +1,9 @@
 # Landing Page — Full Stack Auth App
 
+
+https://github.com/user-attachments/assets/41a55225-f71d-44d5-841b-34b86e5a99d3
+
+
 A clean, production-ready full-stack web application with email OTP verification, JWT authentication, and a leads pipeline dashboard. Built with the **Landing Page ** design palette — dark, precise, and trustworthy.
 
 ---
